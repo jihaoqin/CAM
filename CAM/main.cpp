@@ -4,6 +4,9 @@
 #include "Shader.h"
 #include "stb_image.h"
 #include "Camera.h"
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
@@ -104,7 +107,9 @@ int main()
 		std::cout << "Failed to initialize GLAD" << std::endl;
 		return -1;
 	}
-
+	Assimp::Importer importer;
+	
+	
 	Shader s1("vertexShader.vs", "fragmentShader.fs");
 	Shader s2("vertexShader.vs", "light.fs");
 	GLuint objectVAO, objectVBO, lightVAO;
@@ -148,11 +153,16 @@ int main()
 		s1.setMat4("model", model1);
 		s1.setMat4("view", camera.getViewMat());
 		s1.setMat4("perspective", perspective);
-		s1.setVec3("objectColor", glm::vec3(1.0f, 0.5f, 0.31f));
-		s1.setVec3("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));
-		s1.setVec3("lightPos", glm::vec3(model2 * glm::vec4(0, 0, 0, 1)));
-		s1.setVec3("ambientColor", glm::vec3(1, 1, 0));
 		s1.setVec3("viewPos", camera.pos);
+		s1.setVec3("light.position", glm::vec3(model2 * glm::vec4(0, 0, 0, 1)));
+		s1.setVec3("light.ambient", glm::vec3(0.2f));
+		s1.setVec3("light.diffuse", glm::vec3(0.5f));
+		s1.setVec3("light.specular", glm::vec3(1.0f));
+		s1.setVec3("material.ambient", glm::vec3(1.0f, 0.5f, 0.31f));
+		s1.setVec3("material.diffuse", glm::vec3(1.0f, 0.5f, 0.31f));
+		s1.setVec3("material.specular", glm::vec3(0.5f, 0.5f, 0.5f));
+		s1.setFloat("material.shininess", 32);
+
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 
 		//第二个正方体

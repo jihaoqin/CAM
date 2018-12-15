@@ -62,6 +62,10 @@ public:
 		unsigned int transformLoc = glGetUniformLocation(program, name);
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 	}
+	void setFloat(const char* name, float value) {
+		GLint loc = glGetUniformLocation(program, name);
+		glUniform1f(loc, value);
+	}
 	GLint program;
 private:
 	void checkCompilation(GLint shaderID) {
