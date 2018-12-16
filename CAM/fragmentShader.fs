@@ -1,41 +1,62 @@
 #version 430 core
-in vec3 normal;
-in vec3 worldObject;
-out vec4 FragColor;
 
-uniform vec3 viewPos;
 struct Material{
-    vec3 ambient;
-    vec3 diffuse;
-    vec3 specular;
+	sampler2D diffuse;
+    sampler2D specular;
     float shininess;
 };
-uniform Material material;
-struct Light{
+struct PointLight{
     vec3 position;
     vec3 ambient;
     vec3 diffuse;
     vec3 specular;
 };
-uniform Light light;
+struct LineLight{
+	vec3 direction;
+    vec3 ambient;
+    vec3 diffuse;
+    vec3 specular;
+};
+struct SpotLight{
+	vec3 position;
+	vec3 direction;
+	float radian;
+    vec3 ambient;
+    vec3 diffuse;
+    vec3 specular;
+};
+in vec3 normal;
+in vec3 worldObject;
+in vec2 texCoor;
+out vec4 FragColor;
 
+uniform PointLight pointLight;
+uniform vec3 viewPos;
+uniform Material material;
+
+vec4 calcPointLight(PointLight);
 void main()
 {
-    //ambient
-    vec3 ambient = material.ambient * light.ambient;
+	FragColor = vec4(1.0f);
+	vec4 pointColor = calcPointLight(pointLight);
+	FragColor *= pointColor;
+}
+
+vec4 calcPointLight(PointLight light){
+	//ambient
+    vec3 ambient = vec3(texture(material.diffuse, texCoor)) * light.ambient;
 
     //diffuse
 	vec3 lightDir = normalize(light.position - worldObject);
 	vec3 norm = normalize(normal);
 	float c = max(dot(lightDir, norm), 0.0f);
-    vec3 diffuse = material.diffuse * light.diffuse * c;
-    
+    vec3 diffuse = vec3(texture(material.diffuse, texCoor)) * light.diffuse * c;
+
     //specular
-	float specularStrength = 1.0f;
 	vec3 viewDir = normalize(viewPos - worldObject);
 	vec3 reflectDir = reflect(-lightDir, norm);
 	float spec = pow(max(dot(reflectDir, viewDir), 0.0f), material.shininess);
-	vec3 specular = spec * specularStrength * material.specular * light.specular;
-
-	FragColor = vec4(ambient + diffuse + specular , 1.0f);
+	vec3 specular = spec * vec3(texture(material.specular, texCoor)) * light.specular;
+	vec3 result =ambient + diffuse + specular; 
+	return vec4( result, 1.0f);
 }
