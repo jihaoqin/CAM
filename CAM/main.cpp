@@ -187,6 +187,10 @@ int main()
 	s1.setVec3("pointLight.ambient", glm::vec3(0.2f));
 	s1.setVec3("pointLight.diffuse", glm::vec3(0.5f));
 	s1.setVec3("pointLight.specular", glm::vec3(1.0f));
+	s1.setVec3("lineLight.direction",vec3(0.0f, 0.0f, -1.0f));
+	s1.setVec3("lineLight.ambient",vec3(0.2f));
+	s1.setVec3("lineLight.diffuse",vec3(0.5f));
+	s1.setVec3("lineLight.specular",vec3(1.0f));
 	s1.setInt("material.diffuse", 0);
 	s1.setInt("material.specular", 1);
 	s1.setFloat("material.shininess", 32);
