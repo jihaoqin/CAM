@@ -1,8 +1,8 @@
 #version 430 core
 
 struct Material{
-	sampler2D diffuse;
-    sampler2D specular;
+	sampler2D texture_diffuse1;
+    sampler2D texture_specular1;
     float shininess;
 };
 struct PointLight{
@@ -47,34 +47,34 @@ void main()
 
 vec4 calcPointLight(PointLight light){
 	//ambient
-    vec3 ambient = vec3(texture(material.diffuse, texCoor)) * light.ambient;
+    vec3 ambient = vec3(texture(material.texture_diffuse1, texCoor)) * light.ambient;
 
     //diffuse
 	vec3 lightDir = normalize(worldObject - light.position);
 	vec3 norm = normalize(normal);
 	float c = max(dot((-1.0f)*lightDir, norm), 0.0f);
-    vec3 diffuse = vec3(texture(material.diffuse, texCoor)) * light.diffuse * c;
+    vec3 diffuse = vec3(texture(material.texture_diffuse1, texCoor)) * light.diffuse * c;
 
     //specular
 	vec3 viewDir = normalize(viewPos - worldObject);
 	vec3 reflectDir = reflect(lightDir, norm);
 	float spec = pow(max(dot(reflectDir, viewDir), 0.0f), material.shininess);
-	vec3 specular = spec * vec3(texture(material.specular, texCoor)) * light.specular;
+	vec3 specular = spec * vec3(texture(material.texture_specular1, texCoor)) * light.specular;
 	vec3 result =ambient + diffuse + specular; 
 	return vec4( result, 1.0f);
 }
 vec4 calcLineLight(LineLight light){
     //ambient
-    vec3 ambient = light.ambient * vec3(texture(material.diffuse, texCoor));
+    vec3 ambient = light.ambient * vec3(texture(material.texture_diffuse1, texCoor));
     //diffuse
 	vec3 norm = normalize(normal);
     float diff = max(dot(light.direction*(-1.0f), norm), 0.0f);
-    vec3 diffuse = vec3(texture(material.diffuse, texCoor)) * light.diffuse * diff;
+    vec3 diffuse = vec3(texture(material.texture_diffuse1, texCoor)) * light.diffuse * diff;
     //specular
 	vec3 viewDir = normalize(viewPos - worldObject);
 	vec3 reflectDir = reflect(light.direction, norm);
 	float spec = pow(max(dot(reflectDir, viewDir), 0.0f), material.shininess);
-	vec3 specular = spec * vec3(texture(material.specular, texCoor)) * light.specular;
+	vec3 specular = spec * vec3(texture(material.texture_specular1, texCoor)) * light.specular;
 	vec3 result =ambient + diffuse + specular; 
 	return vec4( result, 1.0f);
 }
