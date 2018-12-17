@@ -68,7 +68,7 @@ vector<Vertex> arrayToVec(unsigned int size, const float a[]) {
 	int num = size / sizeof(float);
 	Vertex x;
 	vector<Vertex> v;
-	for (int i = 0; i < num; i++) {
+	for (int i = 0; i < num; i += 8) {
 		x.vertex = glm::vec3(a[i], a[i+1], a[i+2]);
 		x.normal = glm::vec3(a[i+3], a[i+4], a[i+5]);
 		x.coordinate = glm::vec2(a[i+6], a[i+7]);
