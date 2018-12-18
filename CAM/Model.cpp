@@ -38,5 +38,32 @@ void Model::processNode(const aiNode* n, const aiScene* s) {
 }
 
 void Model::processMesh(const unsigned int index, const aiScene *s) {
-	
+	const aiMesh* m = s->mMeshes[index];
+	//process position
+	vector<Vertex> verVec;
+
+	for (int i = 0; i < m->mNumVertices; i++) {
+		Vertex ver;
+		auto& v = m->mVertices[i];
+		auto& n = m->mNormals[i];
+		ver.vertex = glm::vec3(v.x, v.y, v.z);
+		ver.normal = glm::vec3(n.x, n.y, n.z);
+
+		aiVector3D* t = m->mTextureCoords[i];
+		if (NULL == t) {
+			ver.coordinate = glm::vec2(0.0f, 0.0f);
+		}
+		else {
+			ver.coordinate = glm::vec2(t[0], t[1]);
+		}
+		verVec.push_back(ver);
+	}
+	vector<unsigned int> indexs;
+	for (int i = 0; i < m->mNumFaces; i++) {
+		aiFace& face = m->mFaces[i];
+		for (int j = 0; j < face.mNumIndices; j++) {
+			indexs.push_back(face.mIndices[j]);
+		}
+	}
+	Mesh m(verVec, indexs,);
 }
