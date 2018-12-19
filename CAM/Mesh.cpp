@@ -77,9 +77,9 @@ vector<Vertex> arrayToVec(unsigned int size, const float a[]) {
 	return v;
 }
 
-vector<unsigned int> initVecUint(unsigned int size) {
+vector<unsigned int> initVecUint(unsigned int num) {
 	vector<unsigned int> uintVec;
-	for (int i = 0; i < size; i++) {
+	for (int i = 0; i < num; i = i+8) {
 		uintVec.push_back(i);
 	}
 	return uintVec;
