@@ -22,6 +22,8 @@ void Mesh::draw(Shader s) {
 	s.use();
 	int diffIndex = 1;
 	int specuIndex = 1;
+	int normalIndex = 1;
+	int heightIndex = 1;
 	for (int i = 0; i < textureVec.size(); i++) {
 		Texture& t = textureVec.at(i);
 		glActiveTexture(GL_TEXTURE0 + i);
@@ -34,6 +36,14 @@ void Mesh::draw(Shader s) {
 		else if (t.type == "texture_specular") {
 			index = specuIndex;
 			specuIndex += 1;
+		}
+		else if (t.type == "texture_normal") {
+			index = normalIndex;
+			normalIndex += 1;
+		}
+		else if (t.type == "texture_height") {
+			index = heightIndex;
+			heightIndex += 1;
 		}
 		else {
 			std::cout << "Wrong texture type! \n";
@@ -52,10 +62,10 @@ void Mesh::setupMesh()
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex)*vertexVec.size(), &(vertexVec[0]), GL_STATIC_DRAW);
 	Vertex* p = &vertexVec[0];
-	for (int i = 0; i < vertexVec.size(); i++) {
-		std::cout << "vertexVec["<< i <<"].coordinate = " <<p->vertex.x<<","<<p->vertex.y<<","<<p->vertex.z<<std::endl;
-		p++;
-	}
+	//for (int i = 0; i < vertexVec.size(); i++) {
+	//	std::cout << "vertexVec["<< i <<"].coordinate = " <<p->vertex.x<<","<<p->vertex.y<<","<<p->vertex.z<<std::endl;
+	//	p++;
+	//}
 	glGenBuffers(1, &EBO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	//和nsight里的数据对不上EBO
