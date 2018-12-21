@@ -36,6 +36,9 @@
     <ClCompile Include="Model.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="PerspectiveMat.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="awesomeface.png">
@@ -67,6 +70,9 @@
     <ClInclude Include="Model.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="PerspectiveMat.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="vertexShader.vs">
@@ -79,6 +85,9 @@
       <Filter>源文件</Filter>
     </None>
     <None Include="loadingModel.fs">
+      <Filter>源文件</Filter>
+    </None>
+    <None Include="pureColorWithLight.fs">
       <Filter>源文件</Filter>
     </None>
   </ItemGroup>

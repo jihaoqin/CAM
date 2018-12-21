@@ -2,6 +2,7 @@
 #include <iostream>
 #include <assimp/scene.h>
 #include "Mesh.h"
+#include <string>
 class Model
 {
 public:
@@ -10,6 +11,7 @@ public:
 	void draw(Shader);
 private:
 	std::vector<Mesh> meshVec;
+	std::string directory;
 	void loadModel(const aiScene*);
 	void processNode(const aiNode *, const aiScene *);
 	Mesh processMesh(const unsigned int, const aiScene *);

@@ -53,6 +53,13 @@ void Mesh::draw(Shader s) {
 	glDrawElements(GL_TRIANGLES, indexVec.size(), GL_UNSIGNED_INT, 0);
 }
 
+void Mesh::print() {
+	for (int i = 0; i < vertexVec.size(); i++) {
+		auto vertex = vertexVec.at(i);
+		//std::cout << "point = " << vertex.vertex.x << ", " << vertex.vertex.y << ", " << vertex.vertex.z << "\n";
+	}
+}
+
 void Mesh::setupMesh()
 {
 	glGenVertexArrays(1, &VAO);

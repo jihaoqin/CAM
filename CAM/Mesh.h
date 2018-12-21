@@ -19,10 +19,11 @@ public:
 	Mesh(vector<Vertex>, vector<unsigned int>, vector<Texture>);
 	~Mesh();
 	void draw(Shader s);
+	void print();
+	std::vector<Vertex> vertexVec;
 private:
 	unsigned int VAO, VBO, EBO;
 	void setupMesh();
-	std::vector<Vertex> vertexVec;
 	std::vector<unsigned int> indexVec;
 	std::vector<Texture> textureVec;
 };

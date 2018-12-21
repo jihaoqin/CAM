@@ -1,16 +1,13 @@
+#pragma once
 #include "Camera.h"
+#include <iostream>
 
 
-
-Camera::Camera(glm::vec3 p, glm::vec3 d, glm::vec3 u): pos(p), dir(glm::normalize(d)), worldUp(u), moveSpeed(5.0f), rotateSensity( 2000.0f/(2*3.14))
+Camera::Camera(glm::vec3 p, glm::vec3 d, glm::vec3 u): pos(p), dir(glm::normalize(d)),
+worldUp(u), moveSpeed(5.0f), rotateSensity( 2000.0f/(2*3.14)) 
 {
-	view = glm::lookAt(pos, pos + dir, worldUp);
-	right = glm::normalize(glm::cross(dir, worldUp));
-	left = right *(-1.0f);
-	pitch = atan(dir.z*(-1), dir.x);
-	yaw = atan(glm::length(glm::vec2(dir.x, dir.z)), dir.y);
+	update();
 }
-
 
 Camera::~Camera()
 {
@@ -18,28 +15,31 @@ Camera::~Camera()
 
 glm::mat4 Camera::getViewMat()
 {
-	view = glm::lookAt(pos, pos + dir, worldUp);
 	return view;
 }
 
 void Camera::moveForward(float time)
 {
 	pos += dir * moveSpeed * time;
+	update();
 }
 
 void Camera::moveBackward(float time)
 {
 	moveForward(-1 * time);
+	update();
 }
 
 void Camera::moveLeft(float time)
 {
 	pos += left * moveSpeed * time;
+	update();
 }
 
 void Camera::moveRight(float time)
 {
 	pos += right * moveSpeed * time;
+	update();
 }
 
 void Camera::processMouseMove(float deltaX, float deltaY)
@@ -60,7 +60,6 @@ void Camera::processMouseMove(float deltaX, float deltaY)
 	dir.x = cos(yaw)*sin(pitch);
 	dir.y = sin(yaw);
 	dir.z = -1 * cos(yaw)*cos(pitch);
-	glm::normalize(dir);
 	update();
 }
 
@@ -81,4 +80,42 @@ void Camera::update() {
 	glm::normalize(dir);
 	right = glm::normalize(glm::cross(dir, worldUp));
 	left = right *(-1.0f);
+	pitch = atan(dir.z*(-1), dir.x);
+	yaw = atan(glm::length(glm::vec2(dir.x, dir.z)), dir.y);
+	view = glm::lookAt(pos, pos + dir, worldUp);
 }
+
+glm::mat4 Camera::getPerspective()
+{
+	return perspective.getMatrix();
+}
+
+void Camera::processScroll(double yOffset) {
+	float fov = perspective.getFov();
+	if (fov >= 1.0f && fov <= 88.0f)
+		perspective.setFov(fov - yOffset);
+	else if (fov <= 1.0f)
+		perspective.setFov(1.0f);
+	else if (fov >= 88.0f)
+		perspective.setFov(88.0f);
+	else
+		;
+	update();
+}
+
+glm::vec3 Camera::getPos()
+{
+	return pos;
+}
+
+void Camera::print() {
+	std::cout << "Camera Information:\n";
+	std::cout << "direction = " <<vec3Str(dir);
+}
+#ifdef DEBUG
+std::string vec3Str(glm::vec3 value)
+{
+	std::string str = std::to_string(value.x) + ", " + std::to_string(value.y) + ", " + std::to_string(value.z);
+	return str;
+}
+#endif

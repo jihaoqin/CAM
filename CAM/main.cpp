@@ -18,7 +18,7 @@ using namespace glm;
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void processInput(GLFWwindow *window);
-GLuint loadTexture(const char*);
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 // settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
@@ -29,8 +29,8 @@ glm::vec3 upVec(0.0f, 1.0f, 0.0f);
 Camera camera(camPos, dir, upVec);
 float deltaT;
 
-glm::mat4 model2 = glm::translate(glm::mat4(1.0f),glm::vec3(3.0f, 3.0f, 3.0f));
-glm::mat4 myPerspective = glm::perspective(glm::radians(45.0f), 0.8f/0.6f, 0.1f, 100.0f);
+float fov = 45.0f;
+glm::mat4 myPerspective = glm::perspective(glm::radians(fov), 0.8f/0.6f, 0.1f, 100.0f);
 glm::vec2 lastLoc(400, 300);
 float pitch = 0;
 float yaw = 0;
@@ -60,6 +60,7 @@ int main()
 	glfwMakeContextCurrent(window);
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 	glfwSetCursorPosCallback(window, mouse_callback);
+	glfwSetScrollCallback(window, scroll_callback);
 
 	// glad: load all OpenGL function pointers
 	// ---------------------------------------
@@ -69,19 +70,21 @@ int main()
 		return -1;
 	}
 	
-	Model m("C:/Users/ÇØ¼ÌºÀ/source/repos/CAM/CAM/nanosuit/nanosuit.obj");
-	Shader s1("vertexShader.vs", "loadingModel.fs");
+	Model m("C:/Users/ÇØ¼ÌºÀ/source/repos/CAM/CAM/stl.STL");
+	Shader s1("vertexShader.vs", "pureColorWithLight.fs");
 	s1.use();
-	s1.setVec3("pointLight.position", glm::vec3(model2 * glm::vec4(0, 0, 0, 1)));
-	s1.setVec3("pointLight.ambient", glm::vec3(0.2f));
-	s1.setVec3("pointLight.diffuse", glm::vec3(0.5f));
-	s1.setVec3("pointLight.specular", glm::vec3(1.0f));
-	s1.setVec3("lineLight.direction",vec3(0.0f, 0.0f, -1.0f));
-	s1.setVec3("lineLight.ambient",vec3(0.2f));
-	s1.setVec3("lineLight.diffuse",vec3(0.5f));
-	s1.setVec3("lineLight.specular",vec3(1.0f));
-	s1.setFloat("material.shininess", 32);
 	s1.setMat4("perspective", myPerspective);
+	glm::mat4 myModel = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -3.0f));
+	s1.setMat4("model", myModel);
+	s1.setVec3("lineLight.direction", glm::vec3(0.0f, 0.0f, -1.0f));
+	s1.setVec3("lineLight.ambient", glm::vec3(0.2f));
+	s1.setVec3("lineLight.diffuse", glm::vec3(0.5f));
+	s1.setVec3("lineLight.specular", glm::vec3(0.9f));
+	s1.setVec3("material.ambient", glm::vec3(0.3f, 0.1f, 0.2f));
+	s1.setVec3("material.diffuse", glm::vec3(0.5f, 0.2f, 0.1f));
+	s1.setVec3("material.specular", glm::vec3(0.7f));
+	s1.setFloat("material.shininess", 32);
+	
 
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glEnable(GL_DEPTH_TEST);
@@ -98,6 +101,9 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
+		s1.setMat4("view", camera.getViewMat());
+		s1.setVec3("viewPos",camera.getPos());
+		s1.setMat4("perspective", camera.getPerspective());
 		m.draw(s1);
 		double endT = glfwGetTime();
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
@@ -148,4 +154,8 @@ void mouse_callback(GLFWwindow* window, double xPos, double yPos) {
 	camera.processMouseMove(deltaX, deltaY);
 	lastLoc.x = xPos;
 	lastLoc.y = yPos;
+}
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+{
+	camera.processScroll(yoffset);
 }
