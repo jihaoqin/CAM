@@ -70,7 +70,7 @@ int main()
 		return -1;
 	}
 	
-	Model m("C:/Users/ÇØ¼ÌºÀ/source/repos/CAM/CAM/stl.STL");
+	Model m("C:/Users/qinjihao/source/repos/CAM/CAM/stl.STL");
 	Shader s1("vertexShader.vs", "pureColorWithLight.fs");
 	s1.use();
 	s1.setMat4("perspective", myPerspective);
@@ -149,6 +149,8 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 }
  
 void mouse_callback(GLFWwindow* window, double xPos, double yPos) {
+	cout << "x, y = " << xPos << "," << yPos ;
+	cout << "lastx, lasty = " << lastLoc.x << "," << lastLoc.y << std::endl;
 	float deltaX = xPos - lastLoc.x;
 	float deltaY = yPos - lastLoc.y;
 	camera.processMouseMove(deltaX, deltaY);

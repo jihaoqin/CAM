@@ -36,6 +36,4 @@ private:
 	float atan(float x, float y);
 	void update();
 };
-#ifdef DEBUG
 std::string vec3Str(glm::vec3);
-#endif

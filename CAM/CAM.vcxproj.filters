@@ -84,11 +84,5 @@
     <None Include="light.fs">
       <Filter>源文件</Filter>
     </None>
-    <None Include="loadingModel.fs">
-      <Filter>源文件</Filter>
-    </None>
-    <None Include="pureColorWithLight.fs">
-      <Filter>源文件</Filter>
-    </None>
   </ItemGroup>
 </Project>

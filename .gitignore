@@ -261,3 +261,4 @@ __pycache__/
 *.pyc
 
 *.vcxproj
+/CAM/assimp-vc140-mt.dll
