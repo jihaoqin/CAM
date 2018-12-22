@@ -10,10 +10,8 @@ Model::Model(const char* filePath)
 {
 	Assimp::Importer importer;
 	const aiScene *scene = importer.ReadFile(filePath, aiProcess_Triangulate | aiProcess_FlipUVs);
-	//µ½ÕâÀï
-	std::string str(filePath);
-	str.find_last_of('/');
-	std::string directory = filePath;
+	std::string path = filePath;
+	directory = path.substr(0, path.find_last_of('/'));
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) // if is Not Zero
 	{
 		std::cout << "ERROR::ASSIMP:: " << importer.GetErrorString() << std::endl;
@@ -24,6 +22,9 @@ Model::Model(const char* filePath)
 	}
 	else {
 		loadModel(scene);
+		for (int i = 0; i < meshVec.size(); i++) {
+			meshVec.at(i).print();
+		}
 	}
 }
 
@@ -118,7 +119,7 @@ vector<Texture> Model::loadTextures(const aiMaterial* material, aiTextureType ty
 		aiString path;
 		material->GetTexture(type, i, &path);
 		Texture t;
-		t.id = textureFromFile(path.C_Str());
+		t.id = textureFromFile((directory + '/' + path.C_Str()).c_str());
 		if (type == aiTextureType_DIFFUSE) {
 			t.type = "texture_diffuse";
 		}
