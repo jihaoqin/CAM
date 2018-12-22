@@ -11,6 +11,8 @@ Model::Model(const char* filePath)
 	Assimp::Importer importer;
 	const aiScene *scene = importer.ReadFile(filePath, aiProcess_Triangulate | aiProcess_FlipUVs);
 	//µ½ÕâÀï
+	std::string str(filePath);
+	str.find_last_of('/');
 	std::string directory = filePath;
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) // if is Not Zero
 	{
