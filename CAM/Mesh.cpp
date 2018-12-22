@@ -91,11 +91,7 @@ vector<Vertex> arrayToVec(unsigned int size, const float a[]) {
 	int num = size / sizeof(float);
 	Vertex x;
 	vector<Vertex> v;
-<<<<<<< HEAD
-	for (int i = 0; i < num; i += 8) {
-=======
 	for (int i = 0; i < num; i = i+8) {
->>>>>>> 03aec3b5da4e242e92b0cb2a829fcb0aa6fa4df6
 		x.vertex = glm::vec3(a[i], a[i+1], a[i+2]);
 		x.normal = glm::vec3(a[i+3], a[i+4], a[i+5]);
 		x.coordinate = glm::vec2(a[i+6], a[i+7]);
@@ -105,14 +101,9 @@ vector<Vertex> arrayToVec(unsigned int size, const float a[]) {
 }
 
 vector<unsigned int> initVecUint(unsigned int num) {
-<<<<<<< HEAD
-	vector<unsigned int> uintVec;
-	for (int i = 0; i < num; i = i+8) {
-=======
 	num = num / 8;
 	vector<unsigned int> uintVec;
 	for (int i = 0; i < num; i++) {
->>>>>>> 03aec3b5da4e242e92b0cb2a829fcb0aa6fa4df6
 		uintVec.push_back(i);
 	}
 	return uintVec;
