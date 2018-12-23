@@ -66,6 +66,9 @@ public:
 		GLint loc = glGetUniformLocation(program, name);
 		glUniform1f(loc, value);
 	}
+	void setModel(glm::mat4 model) {
+		setMat4("model", model);
+	}
 	GLint program;
 private:
 	void checkCompilation(GLint shaderID) {

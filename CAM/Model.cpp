@@ -6,7 +6,37 @@
 #include <string>
 
 using std::vector;
-Model::Model(const char* filePath)
+BoundingBox::BoundingBox() {
+	//do nothing;
+}
+BoundingBox::BoundingBox(vector<Mesh>& meshVec) {
+	assert(meshVec.size()>0);
+	glm::vec3 firstVertex = meshVec.at(0).vertexVec.at(0).vertex;
+	xmin = firstVertex.x;
+	xmax = xmin;
+	ymin = firstVertex.y;
+	ymax = ymin;
+	for (auto& m : meshVec) {
+		for (auto& v : m.vertexVec) {
+			float x = v.vertex.x;
+			float y = v.vertex.y;
+			float z = v.vertex.z;
+			auto MIN = [](float a, float b)->float {return a < b ? a : b; };
+			auto MAX = [](float a, float b)->float {return a > b ? a : b; };
+			xmin = MIN(xmin, x);
+			xmax = MAX(xmax, x);
+			ymin = MIN(ymin, y);
+			ymax = MAX(ymax, y);
+		}
+	}
+#if DEBUG
+	print();
+#endif
+}
+void BoundingBox::print() {
+	std::cout << "[xmin, xmax, ymin, ymax] = ["<<xmin << ", "<<xmax<<", "<<ymin<<", "<<ymax<<"]";
+}
+Model::Model(const char* filePath):modelMatrix(glm::mat4(1.0))
 {
 	Assimp::Importer importer;
 	const aiScene *scene = importer.ReadFile(filePath, aiProcess_Triangulate | aiProcess_FlipUVs);
@@ -22,10 +52,9 @@ Model::Model(const char* filePath)
 	}
 	else {
 		loadModel(scene);
-		for (int i = 0; i < meshVec.size(); i++) {
-			meshVec.at(i).print();
-		}
 	}
+	//¼ÆËã°üÎ§ºÐ
+	box = BoundingBox(meshVec);
 }
 
 
@@ -36,6 +65,8 @@ Model::~Model()
 void Model::draw(Shader s) {
 	s.use();
 	for (int i = 0; i < meshVec.size(); i++) {
+		s.use();
+		s.setModel(modelMatrix);
 		meshVec.at(i).draw(s);
 	}
 }
@@ -174,3 +205,4 @@ unsigned int Model::textureFromFile(const char* filePath) {
 	}
 	return id;
 }
+

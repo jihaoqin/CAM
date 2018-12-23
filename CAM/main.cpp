@@ -75,7 +75,6 @@ int main()
 	s1.use();
 	s1.setMat4("perspective", myPerspective);
 	glm::mat4 myModel = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -3.0f));
-	s1.setMat4("model", myModel);
 	s1.setVec3("lineLight.direction", glm::vec3(0.0f, 0.0f, -1.0f));
 	s1.setVec3("lineLight.ambient", glm::vec3(0.2f));
 	s1.setVec3("lineLight.diffuse", glm::vec3(0.5f));
