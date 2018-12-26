@@ -70,7 +70,7 @@ int main()
 		return -1;
 	}
 	
-	Model m("C:/Users/qinjihao/source/repos/CAM/CAM/stl.STL");
+	Model m("C:/Users/ÇØ¼ÌºÀ/source/repos/CAM/CAM/stl.STL");
 	Shader s1("vertexShader.vs", "pureColorWithLight.fs");
 	s1.use();
 	s1.setMat4("perspective", myPerspective);
