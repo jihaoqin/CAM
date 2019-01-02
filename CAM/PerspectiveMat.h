@@ -5,6 +5,7 @@
 class PerspectiveMat {
 public:
 	PerspectiveMat();
+	PerspectiveMat(float f, float r, float near, float far);
 	~PerspectiveMat();
 	glm::mat4 getMatrix();
 	float getNearPlane();

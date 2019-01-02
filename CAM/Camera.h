@@ -4,6 +4,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "PerspectiveMat.h"
 #include <string>
+#include "Shader.h"
 class Camera
 {
 public:
@@ -18,6 +19,7 @@ public:
 	glm::mat4 getPerspective();
 	void processScroll(double);
 	glm::vec3 getPos();
+	void updateShader( Shader&);
 	void print();
 private:
 	//»ù±¾Á¿

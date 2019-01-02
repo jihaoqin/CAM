@@ -12,6 +12,7 @@
 #include "Mesh.h"
 #include "Model.h"
 #include <stdlib.h>
+#include "Camera2.h"
 
 using namespace std;
 using namespace glm;
@@ -27,6 +28,7 @@ glm::vec3 camPos(0.0f, 0.0f, 5.0f);
 glm::vec3 dir(0.0f, 0.0f, -1.0f);
 glm::vec3 upVec(0.0f, 1.0f, 0.0f);
 Camera camera(camPos, dir, upVec);
+Camera2 camera2(camPos, dir, upVec);
 float deltaT;
 
 float fov = 45.0f;
@@ -70,10 +72,10 @@ int main()
 		return -1;
 	}
 	
-	Model m("C:/Users/ÇØ¼ÌºÀ/source/repos/CAM/CAM/stl.STL");
+	Model m("C:/Users/ÇØ¼ÌºÀ/source/repos/CAM/CAM/ÈýÍ¨¹Ü.STL");
 	Shader s1("vertexShader.vs", "pureColorWithLight.fs");
 	s1.use();
-	s1.setMat4("perspective", myPerspective);
+	//s1.setMat4("perspective", myPerspective);
 	glm::mat4 myModel = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -3.0f));
 	s1.setVec3("lineLight.direction", glm::vec3(0.0f, 0.0f, -1.0f));
 	s1.setVec3("lineLight.ambient", glm::vec3(0.2f));
@@ -83,6 +85,7 @@ int main()
 	s1.setVec3("material.diffuse", glm::vec3(0.5f, 0.2f, 0.1f));
 	s1.setVec3("material.specular", glm::vec3(0.7f));
 	s1.setFloat("material.shininess", 32);
+	camera2.bindBoundingBox(m.boundingBox());
 	
 
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
@@ -100,9 +103,8 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
-		s1.setMat4("view", camera.getViewMat());
-		s1.setVec3("viewPos",camera.getPos());
-		s1.setMat4("perspective", camera.getPerspective());
+		//camera.updateShader(s1);
+		camera2.updateShader(s1);
 		m.draw(s1);
 		double endT = glfwGetTime();
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
@@ -152,11 +154,12 @@ void mouse_callback(GLFWwindow* window, double xPos, double yPos) {
 	cout << "lastx, lasty = " << lastLoc.x << "," << lastLoc.y << std::endl;
 	float deltaX = xPos - lastLoc.x;
 	float deltaY = yPos - lastLoc.y;
-	camera.processMouseMove(deltaX, deltaY);
+	//camera.processMouseMove(deltaX, deltaY);
+	camera2.processMouseMove(deltaX, deltaY);
 	lastLoc.x = xPos;
 	lastLoc.y = yPos;
 }
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
-	camera.processScroll(yoffset);
+	camera2.processScroll(yoffset);
 }

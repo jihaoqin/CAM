@@ -1,6 +1,10 @@
 #include "PerspectiveMat.h"
 PerspectiveMat::PerspectiveMat():fov(45.0f),ratio(8.0/6.0f),nearPlane(0.1f),farPlane(100.0f) {
 }
+PerspectiveMat::PerspectiveMat(float f, float r, float near, float far):fov(f), ratio(r), nearPlane(near), farPlane(far)
+{
+
+}
 PerspectiveMat::~PerspectiveMat()
 {
 }

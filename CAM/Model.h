@@ -7,10 +7,13 @@ class BoundingBox {
 public:
 	BoundingBox();
 	BoundingBox( std::vector<Mesh>&);
+	glm::vec3 center();
 	double xmin;
 	double xmax;
 	double ymin;
 	double ymax;
+	double zmin;
+	double zmax;
 	void print();
 };
 class Model
@@ -19,6 +22,7 @@ public:
 	Model(const char* filePath);
 	~Model();
 	void draw(Shader);
+	BoundingBox boundingBox();
 private:
 	std::vector<Mesh> meshVec;
 	std::string directory;

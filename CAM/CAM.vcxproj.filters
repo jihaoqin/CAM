@@ -39,6 +39,12 @@
     <ClCompile Include="PerspectiveMat.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Camera2.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="utility.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="awesomeface.png">
@@ -73,6 +79,12 @@
     <ClInclude Include="PerspectiveMat.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Camera2.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="utility.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="vertexShader.vs">
@@ -84,5 +96,7 @@
     <None Include="light.fs">
       <Filter>源文件</Filter>
     </None>
+    <None Include="loadingModel.fs" />
+    <None Include="pureColorWithLight.fs" />
   </ItemGroup>
 </Project>

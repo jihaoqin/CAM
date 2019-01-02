@@ -117,6 +117,14 @@ glm::vec3 Camera::getPos()
 	return pos;
 }
 
+void Camera::updateShader(Shader &s)
+{
+	s.use();
+	s.setMat4("view", getViewMat());
+	s.setVec3("viewPos",getPos());
+	s.setMat4("perspective", getPerspective());
+}
+
 void Camera::print() {
 	std::cout << "Camera Information:\n";
 	std::cout << "direction = " <<vec3Str(dir)<<"\n";
