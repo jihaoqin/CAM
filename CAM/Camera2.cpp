@@ -1,4 +1,4 @@
-#include "Camera2.h"
+ï»¿#include "Camera2.h"
 #include "utility.h"
 
 
@@ -28,10 +28,10 @@ Camera2::~Camera2()
 
 void Camera2::rotateScene(glm::vec3 pos, float rad, glm::vec3 axis)
 {
-	//Model = W¾É, View = »úW£¬ View*Model = »ú¾É
-	//R = ¾ÉÐÂ£¬ View*Model*R = »úÐÂ, 
-	//ÆäÖÐModelÎªinverse(View)£¬ÒÆ¶¯µ½posµãµÄ¾ØÕó£¬RÎªÐý×ª¾ØÕó
-	//ÐÂµÄView¾ØÕóÎª View_new = View*Model*R*inverse(Model)
+	//Model = Wæ—§, View = æœºWï¼Œ View*Model = æœºæ—§
+	//R = æ—§æ–°ï¼Œ View*Model*R = æœºæ–°, 
+	//å…¶ä¸­Modelä¸ºinverse(View)ï¼Œç§»åŠ¨åˆ°posç‚¹çš„çŸ©é˜µï¼ŒRä¸ºæ—‹è½¬çŸ©é˜µ
+	//æ–°çš„ViewçŸ©é˜µä¸º View_new = View*Model*R*inverse(Model)
 	glm::mat4 view = worldBaseCam;
 	glm::mat4 model = utility::setPos(camBaseWorld, pos);
 	glm::mat4 R = glm::rotate(glm::mat4(1.0f), rad, axis);

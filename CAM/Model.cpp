@@ -1,4 +1,4 @@
-#include "Model.h"
+ï»¿#include "Model.h"
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
@@ -69,7 +69,7 @@ Model::Model(const char* filePath):modelMatrix(glm::mat4(1.0))
 	else {
 		loadModel(scene);
 	}
-	//¼ÆËã°üÎ§ºÐ
+	//è®¡ç®—åŒ…å›´ç›’
 	box = BoundingBox(meshVec);
 }
 
